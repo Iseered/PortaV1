@@ -5,6 +5,7 @@ import { Bird, Island, Plane, Sky } from "../models";
 import HomeInfo from '../components/HomeInfo.jsx';
 import sakura from "../assets/sakura.mp3";
 import { soundoff, soundon } from "../assets/icons";
+import { useCallback } from 'react';
  const Home=()=> {
 
   const audioRef = useRef(new Audio(sakura));
@@ -20,41 +21,33 @@ import { soundoff, soundon } from "../assets/icons";
   useEffect(() => {
     if (isPlayingMusic) {
       audioRef.current.play();
-    }
-
-    return () => {
+    } else {
       audioRef.current.pause();
-    };
+    }
   }, [isPlayingMusic]);
-  const adjustIslandForScreenSize=()=>{ 
-    
-    let screenScale= null;
-    let screenPostion=[0, -6.5, -43];
-    let rotation=[0.1,4.7,0];
-    if(window.innerWidth<768){
-        screenScale = [0.9, 0.9, 0.9];
-      
-    } else{
-        screenScale = [1, 1, 1];
-      
-      }
-    return [screenScale,screenPostion,rotation]
-  }
-  const adjustPlaneForScreenSize=()=>{ 
-    let screenScale , screenPostion;
-    
-    if(window.innerWidth<768){
-        screenScale = [1.5, 1.5, 1.5];
-        screenPostion=[0,-1.5,0]
-      
-      
-    } else{
-        screenScale = [3, 3, 3];
-        screenPostion = [0, -4, -4];
-      
-      }
-    return [screenScale,screenPostion]
-  }
+  const adjustIslandForScreenSize = useCallback(() => {
+    let screenScale = null;
+    let screenPosition = [0, -6.5, -43];
+    let rotation = [0.1, 4.7, 0];
+    if (window.innerWidth < 768) {
+      screenScale = [0.9, 0.9, 0.9];
+    } else {
+      screenScale = [1, 1, 1];
+    }
+    return [screenScale, screenPosition, rotation];
+  }, []);
+
+  const adjustPlaneForScreenSize = useCallback(() => {
+    let screenScale, screenPosition;
+    if (window.innerWidth < 768) {
+      screenScale = [1.5, 1.5, 1.5];
+      screenPosition = [0, -1.5, 0];
+    } else {
+      screenScale = [3, 3, 3];
+      screenPosition = [0, -4, -4];
+    }
+    return [screenScale, screenPosition];
+  }, []);
  const[islandScale,islandPosition,islandRotation]=adjustIslandForScreenSize();
  const[planeScale,planePosition]=adjustPlaneForScreenSize();
   return (

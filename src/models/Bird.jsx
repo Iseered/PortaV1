@@ -18,7 +18,7 @@ export function Bird() {
   // Note: Animation names can be found on the Sketchfab website where the 3D model is hosted.
   useEffect(() => {
     actions["Take 001"].play();
-  }, []);
+  }, [actions]);
 
   useFrame(({ clock, camera }) => {
     // Update the Y position to simulate bird-like motion using a sine wave
